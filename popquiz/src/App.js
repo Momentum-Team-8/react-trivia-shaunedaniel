@@ -1,13 +1,28 @@
-import Axios from 'axios';
+import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import Questions from './components/Questions;
 
-const API_URL = "https://opentdb.com/api.php?amount=10;
+
+const API_URL = 'https://opentdb.com/api_category.php';
 function App() {
-  return (
+  const[categories, setCategories] = useState([])
+    useEffect(() => {
+      axios.get(API_URL)
+        .then(res => setCategories(res.data.trivia_categories))
 
-  );
+    }, [])
+
+  return (
+  <> 
+    {categories.map((category)=> {
+      console.log(category)
+      return (
+          <div key={category.id}>
+            <p>{category.name}
+            </p></div>
+      )
+     })}
+     </>)
 }
 
 export default App;
