@@ -1,28 +1,27 @@
-import axios from 'axios';
-import React, {useState, useEffect} from 'react';
+
+import React, { useState, useEffect } from 'react'
 import './App.css';
+import axios from 'axios'
+import { getCategoryList } from './api';
+import { Catlist } from './components/Catlist';
+import { Questions } from './components/Questions';
 
-
-const API_URL = 'https://opentdb.com/api_category.php';
 function App() {
-  const[categories, setCategories] = useState([])
-    useEffect(() => {
-      axios.get(API_URL)
-        .then(res => setCategories(res.data.trivia_categories))
+    const [categories, setCategories] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState(null)
 
+    useEffect(() => {
+        getCategoryList().then((categories) => setCategories(categories))
     }, [])
 
-  return (
-  <> 
-    {categories.map((category)=> {
-      console.log(category)
-      return (
-          <div key={category.id}>
-            <p>{category.name}
-            </p></div>
-      )
-     })}
-     </>)
+    return (
+        <>
+        {selectedCategory 
+            ? <Questions selectedCategory={selectedCategory} categories={categories} setSelectedCategory={setSelectedCategory} />
+            : (<Catlist selectedCategory={selectedCategory} categories={categories} setSelectedCategory={setSelectedCategory} />)
+        }
+        </>
+    )
 }
 
 export default App;
