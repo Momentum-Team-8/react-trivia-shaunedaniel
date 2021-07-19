@@ -1,27 +1,27 @@
-
 import React, { useState, useEffect } from 'react'
-import './App.css';
 import axios from 'axios'
-import { getCategoryList } from './api';
-import { Catlist } from './components/Catlist';
-import { Questions } from './components/Questions';
+import './App.css'
+import { Catlist } from './components/CatList'
+import { Questions } from './components/Questions'
+import { getCatlist } from './components/api'
 
-function App() {
-    const [categories, setCategories] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState(null)
+const App = () => {
+  const [categories, setCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState(null)
 
-    useEffect(() => {
-        getCategoryList().then((categories) => setCategories(categories))
-    }, [])
+  useEffect(() => {
+    getCatlist().then((categories) => setCategories(categories))
+  }, [])
 
-    return (
-        <>
-        {selectedCategory 
-            ? <Questions selectedCategory={selectedCategory} categories={categories} setSelectedCategory={setSelectedCategory} />
-            : (<Catlist selectedCategory={selectedCategory} categories={categories} setSelectedCategory={setSelectedCategory} />)
-        }
-        </>
-    )
+  return (
+    <div className='container'>
+      <h1>PopQuiz</h1>
+      <h2>Select a Category to Begin</h2>
+      {selectedCategory
+        ? (<Questions selectedCategory={selectedCategory} />)
+        : (<Catlist categories={categories} setSelectedCategory={setSelectedCategory} />)}
+    </div>
+  )
 }
 
-export default App;
+export default App
