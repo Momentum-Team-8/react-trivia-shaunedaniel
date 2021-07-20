@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import './App.css'
-import { Catlist } from './components/CatList'
-import { Questions } from './components/Questions'
-import { getCatlist } from './components/api'
+import { getCategoryList } from './components/api'
+import { CategoryList } from './components/CategoryList'
+import { CategoryQuestions } from './components/CategoryQuestions'
 
-const App = () => {
+function App () {
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
 
   useEffect(() => {
-    getCatlist().then((categories) => setCategories(categories))
+    getCategoryList().then((categories) => setCategories(categories))
   }, [])
 
   return (
-    <div className='container'>
-      <h1>PopQuiz</h1>
-      <h2>Select a Category to Begin</h2>
+    <>
       {selectedCategory
-        ? (<Questions selectedCategory={selectedCategory} />)
-        : (<Catlist categories={categories} setSelectedCategory={setSelectedCategory} />)}
-    </div>
+        ? <CategoryQuestions selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+        : (<CategoryList selectedCategory={selectedCategory} categories={categories} setSelectedCategory={setSelectedCategory} />)}
+    </>
   )
 }
 
